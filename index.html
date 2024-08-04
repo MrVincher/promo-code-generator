@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo Code Generator</title>
+    <title>Hamster Key Generator</title>
     <style>
         body {
             display: flex;
@@ -72,22 +72,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>Promo Code Generator</h1>
-        <button id="startBtn">Start</button>
+        <h1>Hamster Key Generator</h1>
+        <button id="startBtn">Запустить</button>
         <div id="progressContainer" class="hidden">
             <div id="progressBar"></div>
             <div id="progressText">0%</div>
         </div>
         <div id="keyContainer" class="hidden">
             <pre id="generatedKeys"></pre>
-            <button id="copyBtn">Copy Codes</button>
+            <button id="copyBtn">Копировать коды</button>
         </div>
         <select id="keyCountSelect">
             <option value="1">1</option>
             <option value="5">5</option>
             <option value="10">10</option>
         </select>
-        <button id="creatorChannelBtn">Go to Channel</button>
+        <button id="creatorChannelBtn">Перейти на канал</button>
         <div id="keyImagesContainer"></div>
     </div>
 
@@ -179,9 +179,9 @@
         document.getElementById('copyBtn').addEventListener('click', () => {
             const generatedKeys = document.getElementById('generatedKeys');
             navigator.clipboard.writeText(generatedKeys.innerText).then(() => {
-                alert('Codes copied to clipboard');
+                alert('Коды скопированы в буфер обмена');
             }).catch(err => {
-                alert('Failed to copy codes: ' + err);
+                alert('Не удалось скопировать коды: ' + err);
             });
         });
 
