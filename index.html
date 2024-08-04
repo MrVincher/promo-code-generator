@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HamsterKard Code Generator</title>
+    <title>Promo Code Generator</title>
     <style>
         body {
             display: flex;
@@ -54,11 +54,25 @@
         #creatorChannelBtn:hover {
             background-color: #38006b;
         }
+        #copyBtn {
+            background-color: #4caf50;
+        }
+        #copyBtn:hover {
+            background-color: #388e3c;
+        }
+        .key-image {
+            display: inline-block;
+            margin: 5px;
+        }
+        .key-image img {
+            width: 30px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>HamsterKard Code Generator</h1>
+        <h1>Promo Code Generator</h1>
         <button id="startBtn">Start</button>
         <div id="progressContainer" class="hidden">
             <div id="progressBar"></div>
@@ -66,13 +80,15 @@
         </div>
         <div id="keyContainer" class="hidden">
             <pre id="generatedKeys"></pre>
+            <button id="copyBtn">Copy Codes</button>
         </div>
         <select id="keyCountSelect">
             <option value="1">1</option>
             <option value="5">5</option>
             <option value="10">10</option>
         </select>
-        <button id="creatorChannelBtn">Перейти на канал</button>
+        <button id="creatorChannelBtn">Go to Channel</button>
+        <div id="keyImagesContainer"></div>
     </div>
 
     <script>
@@ -87,6 +103,7 @@
             const progressText = document.getElementById('progressText');
             const keyContainer = document.getElementById('keyContainer');
             const generatedKeys = document.getElementById('generatedKeys');
+            const keyImagesContainer = document.getElementById('keyImagesContainer');
             const keyCount = parseInt(document.getElementById('keyCountSelect').value);
 
             // Reset UI for new generation
@@ -95,6 +112,7 @@
             progressContainer.classList.remove('hidden');
             keyContainer.classList.add('hidden');
             generatedKeys.innerText = '';
+            keyImagesContainer.innerHTML = '';
 
             startBtn.disabled = true;
 
@@ -140,11 +158,31 @@
             generatedKeys.innerText = keys.filter(key => key).join('\n');
             keyContainer.classList.remove('hidden');
 
+            // Display key images
+            keys.filter(key => key).forEach(() => {
+                const img = document.createElement('img');
+                img.src = 'key.png'; // путь к изображению ключа
+                img.alt = 'Key Image';
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'key-image';
+                imgWrapper.appendChild(img);
+                keyImagesContainer.appendChild(imgWrapper);
+            });
+
             startBtn.disabled = false;
         });
 
         document.getElementById('creatorChannelBtn').addEventListener('click', () => {
-            window.location.href = 'https://t.me/hamsterkard'; // Замените на URL вашего канала
+            window.open('https://t.me/hamsterkard', '_blank'); // Открывает ссылку в новой вкладке
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const generatedKeys = document.getElementById('generatedKeys');
+            navigator.clipboard.writeText(generatedKeys.innerText).then(() => {
+                alert('Codes copied to clipboard');
+            }).catch(err => {
+                alert('Failed to copy codes: ' + err);
+            });
         });
 
         function generateClientId() {
