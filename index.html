@@ -10,34 +10,38 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f3e5f5;
-            font-family: Arial, sans-serif;
+            background-color: #f9fbe7;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #4a148c;
+            color: #3e2723;
             text-align: center;
         }
         .container {
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.4); /* Увеличенная тень */
-            background-image: url('background.png'); /* Путь к вашему фоновому изображению */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            background-image: url('hamster-background.png'); /* Путь к вашему фоновому изображению с хомяком */
             background-size: cover;
             background-position: center;
+            max-width: 600px;
+            width: 100%;
         }
         .header {
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 20px;
-            color: #6a1b9a;
+            color: #5d4037;
         }
         h1 {
             margin-top: 0;
+            font-size: 28px;
+            color: #6d4c41;
         }
         h2 {
-            font-size: 18px;
-            color: #6a1b9a;
+            font-size: 20px;
+            color: #5d4037;
             margin: 0;
             padding-bottom: 20px;
         }
@@ -48,16 +52,17 @@
             margin-top: 20px;
             border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         #progressBar {
             height: 25px;
-            background-color: #7b1fa2;
+            background-color: #ffab00;
             width: 0%;
             transition: width 0.5s;
         }
         #progressText {
             margin-top: 5px;
-            color: #4a148c;
+            color: #3e2723;
         }
         button, select {
             padding: 10px 20px;
@@ -65,38 +70,36 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #8e24aa;
+            background-color: #ffab00;
             color: #fff;
             font-size: 16px;
             transition: background-color 0.3s ease;
         }
         button:hover, select:hover {
-            background-color: #6a1b9a;
+            background-color: #ff6f00;
         }
         #creatorChannelBtn {
-            background-color: #4a148c;
+            background-color: #3e2723;
         }
         #creatorChannelBtn:hover {
-            background-color: #38006b;
+            background-color: #2c1700;
         }
         #copyBtn {
-            background-color: #4caf50;
-        }
-        #copyBtn:hover {
             background-color: #388e3c;
         }
-        .key-image {
-            display: inline-block;
-            margin: 5px;
+        #copyBtn:hover {
+            background-color: #2c6c2c;
         }
-        .key-image img {
-            width: 30px;
-            height: auto;
+        .hamster-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <img src="hamster-icon.png" alt="Hamster Icon" class="hamster-icon"> <!-- Иконка хомяка -->
         <h2>Создано специально для канала @HamsterKard</h2>
         <h1>Hamster Key Generator</h1>
         <button id="startBtn">Запустить</button>
@@ -114,7 +117,6 @@
             <option value="10">10</option>
         </select>
         <button id="creatorChannelBtn">Перейти на канал</button>
-        <div id="keyImagesContainer"></div>
     </div>
 
     <script>
@@ -129,7 +131,6 @@
             const progressText = document.getElementById('progressText');
             const keyContainer = document.getElementById('keyContainer');
             const generatedKeys = document.getElementById('generatedKeys');
-            const keyImagesContainer = document.getElementById('keyImagesContainer');
             const keyCount = parseInt(document.getElementById('keyCountSelect').value);
 
             // Reset UI for new generation
@@ -138,7 +139,6 @@
             progressContainer.classList.remove('hidden');
             keyContainer.classList.add('hidden');
             generatedKeys.innerText = '';
-            keyImagesContainer.innerHTML = '';
 
             startBtn.disabled = true;
 
@@ -183,17 +183,6 @@
                 const keys = await Promise.all(Array.from({ length: keyCount }, generateKeyProcess));
                 generatedKeys.innerText = keys.filter(key => key).join('\n');
                 keyContainer.classList.remove('hidden');
-
-                // Display key images
-                keys.filter(key => key).forEach(() => {
-                    const img = document.createElement('img');
-                    img.src = 'key.png'; // путь к изображению ключа
-                    img.alt = 'Key Image';
-                    const imgWrapper = document.createElement('div');
-                    imgWrapper.className = 'key-image';
-                    imgWrapper.appendChild(img);
-                    keyImagesContainer.appendChild(imgWrapper);
-                });
             } catch (error) {
                 alert(`Ошибка обработки ключей: ${error.message}`);
             }
