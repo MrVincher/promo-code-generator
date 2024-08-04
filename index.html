@@ -22,9 +22,6 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-image: url('background.png'); /* путь к вашему фоновому изображению */
-            background-size: cover;
-            background-position: center;
         }
         .hidden { display: none; }
         #progressBar { 
@@ -87,7 +84,7 @@
         </div>
         <select id="keyCountSelect">
             <option value="1">1</option>
-            <option value="4">4</option>
+            <option value="5">5</option>
             <option value="10">10</option>
         </select>
         <button id="creatorChannelBtn">Перейти на канал</button>
@@ -97,7 +94,7 @@
     <script>
         const APP_TOKEN = 'd28721be-fd2d-4b45-869e-9f253b554e50';
         const PROMO_ID = '43e35910-c168-4634-ad4f-52fd764a843f';
-        const EVENTS_DELAY = 5000; // Уменьшенная задержка
+        const EVENTS_DELAY = 20000;
 
         document.getElementById('startBtn').addEventListener('click', async () => {
             const startBtn = document.getElementById('startBtn');
@@ -137,8 +134,8 @@
                     return;
                 }
 
-                for (let i = 0; i < 3; i++) { // Уменьшено количество итераций
-                    await sleep(EVENTS_DELAY);
+                for (let i = 0; i < 7; i++) {
+                    await sleep(EVENTS_DELAY * delayRandom());
                     const hasCode = await emulateProgress(clientToken);
                     updateProgress(10 / keyCount); // Update progress incrementally
                     if (hasCode) {
