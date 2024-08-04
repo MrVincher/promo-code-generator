@@ -17,20 +17,29 @@
             color: #4a148c;
             text-align: center;
         }
-        .header {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: #6a1b9a;
-        }
         .container {
             text-align: center;
             background-color: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            background-image: url('background.png'); /* путь к вашему фоновому изображению */
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.4); /* Увеличенная тень */
+            background-image: url('background.png'); /* Путь к вашему фоновому изображению */
             background-size: cover;
             background-position: center;
+        }
+        .header {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #6a1b9a;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 18px;
+            color: #6a1b9a;
+            margin: 0;
+            padding-bottom: 20px;
         }
         .hidden { display: none; }
         #progressContainer {
@@ -87,10 +96,8 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        Создано специально для канала @HamsterKard
-    </div>
     <div class="container">
+        <h2>Создано специально для канала @HamsterKard</h2>
         <h1>Hamster Key Generator</h1>
         <button id="startBtn">Запустить</button>
         <div id="progressContainer" class="hidden">
@@ -253,7 +260,7 @@
                 const data = await response.json();
                 return data.hasCode;
             } catch (error) {
-                console.error('Ошибка при эмуляции прогресса:', error);
+                console.error('Ошибка при регистрации события:', error);
                 throw error;
             }
         }
