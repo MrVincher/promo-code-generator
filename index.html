@@ -3,29 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo Code Generator</title>
+    <title>HamsterKard Code Generator</title>
     <style>
-        /* Добавьте ваши стили здесь */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f3e5f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #4a148c;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
         .hidden { display: none; }
-        #progressBar { height: 25px; background-color: green; }
-        #progressContainer { width: 100%; background-color: #ddd; }
+        #progressBar { 
+            height: 25px; 
+            background-color: #7b1fa2;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        #progressContainer { 
+            width: 100%; 
+            background-color: #ddd; 
+            margin-top: 20px;
+        }
+        button, select {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #8e24aa;
+            color: #fff;
+            font-size: 16px;
+        }
+        button:hover, select:hover {
+            background-color: #6a1b9a;
+        }
+        #creatorChannelBtn {
+            background-color: #4a148c;
+        }
+        #creatorChannelBtn:hover {
+            background-color: #38006b;
+        }
     </style>
 </head>
 <body>
-    <button id="startBtn">Start</button>
-    <div id="progressContainer" class="hidden">
-        <div id="progressBar"></div>
-        <div id="progressText">0%</div>
+    <div class="container">
+        <h1>HamsterKard Code Generator</h1>
+        <button id="startBtn">Start</button>
+        <div id="progressContainer" class="hidden">
+            <div id="progressBar"></div>
+            <div id="progressText">0%</div>
+        </div>
+        <div id="keyContainer" class="hidden">
+            <pre id="generatedKeys"></pre>
+        </div>
+        <select id="keyCountSelect">
+            <option value="1">1</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select>
+        <button id="creatorChannelBtn">Перейти на канал</button>
     </div>
-    <div id="keyContainer" class="hidden">
-        <pre id="generatedKeys"></pre>
-    </div>
-    <select id="keyCountSelect">
-        <option value="1">1</option>
-        <option value="5">5</option>
-        <option value="10">10</option>
-    </select>
-    <button id="creatorChannelBtn">Go to Channel</button>
 
     <script>
         const APP_TOKEN = 'd28721be-fd2d-4b45-869e-9f253b554e50';
@@ -96,7 +144,7 @@
         });
 
         document.getElementById('creatorChannelBtn').addEventListener('click', () => {
-            window.location.href = 'https://dzen.ru/id/6692df520f4cdd6ded47c3ee'; // Замените на URL вашего канала
+            window.location.href = 'https://t.me/hamsterkard'; // Замените на URL вашего канала
         });
 
         function generateClientId() {
