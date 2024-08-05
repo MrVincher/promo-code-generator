@@ -14,20 +14,30 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #4a148c; /* Тёмный фиолетовый цвет текста */
+            color: #4a148c; /* Темный фиолетовый цвет текста */
             text-align: center;
         }
         .container {
+            position: relative;
             text-align: center;
             background-color: #ffffff;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            background-image: url('hamster-background.png'); /* Фоновое изображение */
-            background-size: cover;
-            background-position: center;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4); /* Увеличенная и более заметная тень */
             max-width: 600px;
             width: 100%;
+        }
+        .container::before {
+            content: "";
+            background: url('hamster-icon.png') no-repeat center center;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.2; /* Полупрозрачное изображение фона */
+            border-radius: 15px;
         }
         .header {
             font-size: 18px;
@@ -38,12 +48,16 @@
             margin-top: 0;
             font-size: 28px;
             color: #6a1b9a; /* Глубокий фиолетовый цвет */
+            position: relative;
+            z-index: 1;
         }
         h2 {
             font-size: 20px;
             color: #8e24aa; /* Средний фиолетовый цвет */
             margin: 0;
             padding-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
         .hidden { display: none; }
         #progressContainer {
@@ -52,7 +66,9 @@
             margin-top: 20px;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Тень для прогресс-бара */
+            position: relative;
+            z-index: 1;
         }
         #progressBar {
             height: 25px;
@@ -62,7 +78,9 @@
         }
         #progressText {
             margin-top: 5px;
-            color: #4a148c; /* Тёмный фиолетовый текст */
+            color: #4a148c; /* Темный фиолетовый текст */
+            position: relative;
+            z-index: 1;
         }
         button, select {
             padding: 10px 20px;
@@ -74,15 +92,18 @@
             color: #ffffff;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень для кнопок */
         }
         button:hover, select:hover {
-            background-color: #7b1fa2; /* Более тёмный фиолетовый при наведении */
+            background-color: #7b1fa2; /* Более темный фиолетовый при наведении */
         }
         #creatorChannelBtn {
-            background-color: #4a148c; /* Тёмный фиолетовый */
+            background-color: #4a148c; /* Темный фиолетовый */
         }
         #creatorChannelBtn:hover {
-            background-color: #3d0a6f; /* Ещё более тёмный фиолетовый */
+            background-color: #3d0a6f; /* Ещё более темный фиолетовый */
         }
         #copyBtn {
             background-color: #ab47bc; /* Светлый фиолетовый */
@@ -90,16 +111,10 @@
         #copyBtn:hover {
             background-color: #8e24aa; /* Средний фиолетовый при наведении */
         }
-        .hamster-icon {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="hamster-icon.png" alt="Hamster Icon" class="hamster-icon"> <!-- Иконка хомяка -->
         <h2>Создано специально для канала @HamsterKard</h2>
         <h1>Hamster Key Generator</h1>
         <button id="startBtn">Запустить</button>
@@ -115,6 +130,7 @@
             <option value="1">1</option>
             <option value="4">4</option>
             <option value="10">10</option>
+            <option value="40">40</option>
         </select>
         <button id="creatorChannelBtn">Перейти на канал</button>
     </div>
@@ -218,7 +234,7 @@
                 });
                 if (!response.ok) {
                     const data = await response.json();
-                    throw new Error(data.message || 'Не удалось войти в систему');
+                    throw new Error(data.message || 'Не удалось войти');
                 }
                 const data = await response.json();
                 return data.clientToken;
