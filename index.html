@@ -27,33 +27,6 @@
             max-width: 600px;
             width: 100%;
         }
-        .container::before {
-            content: "";
-            background: url('hamster-icon.png') no-repeat center center;
-            background-size: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0.2; /* Полупрозрачное изображение фона */
-            border-radius: 15px;
-        }
-        h1 {
-            margin-top: 0;
-            font-size: 28px;
-            color: #6a1b9a; /* Глубокий фиолетовый цвет */
-            position: relative;
-            z-index: 1;
-        }
-        h2 {
-            font-size: 20px;
-            color: #8e24aa; /* Средний фиолетовый цвет */
-            margin: 0;
-            padding-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
         .hidden { display: none; }
         button, select {
             padding: 10px 20px;
@@ -65,9 +38,6 @@
             color: #ffffff;
             font-size: 16px;
             transition: background-color 0.3s ease;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень для кнопок */
         }
         button:hover, select:hover {
             background-color: #7b1fa2; /* Более темный фиолетовый при наведении */
@@ -84,28 +54,46 @@
     <div class="container">
         <h2>Создано специально для канала @HamsterKard</h2>
         <h1>Hamster Key Generator</h1>
-        <button id="startBtn">Запустить</button>
-        <div id="progressContainer" class="hidden">
-            <div id="progressBar"></div>
-            <div id="progressText">0%</div>
+        <div id="loginContainer">
+            <p>Нажмите клавиши "H", "A", "M" в этом порядке для доступа.</p>
         </div>
-        <div id="keyContainer" class="hidden">
-            <pre id="generatedKeys"></pre>
-            <button id="copyBtn">Копировать коды</button>
+        <div id="generatorContainer" class="hidden">
+            <button id="startBtn">Запустить</button>
+            <div id="progressContainer" class="hidden">
+                <div id="progressBar"></div>
+                <div id="progressText">0%</div>
+            </div>
+            <div id="keyContainer" class="hidden">
+                <pre id="generatedKeys"></pre>
+                <button id="copyBtn">Копировать коды</button>
+            </div>
+            <select id="keyCountSelect">
+                <option value="1">1</option>
+                <option value="4">4</option>
+                <option value="10">10</option>
+                <option value="40">40</option>
+            </select>
+            <button id="creatorChannelBtn">Перейти на канал</button>
         </div>
-        <select id="keyCountSelect">
-            <option value="1">1</option>
-            <option value="4">4</option>
-            <option value="10">10</option>
-            <option value="40">40</option>
-        </select>
-        <button id="creatorChannelBtn">Перейти на канал</button>
     </div>
 
     <script>
         const APP_TOKEN = 'd28721be-fd2d-4b45-869e-9f253b554e50';
         const PROMO_ID = '43e35910-c168-4634-ad4f-52fd764a843f';
-        const EVENTS_DELAY = 20000; // Вернул задержку на прежний уровень
+        const EVENTS_DELAY = 20000; // Задержка для генерации
+
+        // Определяем комбинацию клавиш для доступа
+        const REQUIRED_KEYS = ['h', 'a', 'm'];
+        let keyPresses = [];
+
+        document.addEventListener('keydown', (event) => {
+            keyPresses.push(event.key.toLowerCase());
+            if (keyPresses.slice(-REQUIRED_KEYS.length).join('') === REQUIRED_KEYS.join('')) {
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('generatorContainer').classList.remove('hidden');
+                keyPresses = []; // Сбрасываем после успешного ввода
+            }
+        });
 
         document.getElementById('startBtn').addEventListener('click', async () => {
             const startBtn = document.getElementById('startBtn');
