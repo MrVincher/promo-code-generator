@@ -49,8 +49,8 @@
             background-color: #8e24aa; /* Средний фиолетовый при наведении */
         }
         .number-button {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             font-size: 24px;
             margin: 10px;
             background-color: #9c27b0;
@@ -70,12 +70,10 @@
         <h1>Hamster Key Generator</h1>
         <div id="loginContainer">
             <div id="numberButtonsContainer">
-                <button class="number-button" data-key="1">1</button>
-                <button class="number-button" data-key="2">2</button>
-                <button class="number-button" data-key="3">3</button>
-                <button class="number-button" data-key="4">4</button>
-                <button class="number-button" data-key="5">5</button>
+                <button class="number-button" data-key="9">9</button>
                 <button class="number-button" data-key="6">6</button>
+                <button class="number-button" data-key="7">7</button>
+                <button class="number-button" data-key="0">0</button>
             </div>
             <div id="feedback" class="hidden">Неверный ввод, попробуйте снова.</div>
         </div>
@@ -105,7 +103,7 @@
         const EVENTS_DELAY = 20000; // Задержка для генерации
 
         // Определяем правильную комбинацию для входа
-        const REQUIRED_KEY_SEQUENCE = ['1', '2', '3', '4', '5', '6'];
+        const REQUIRED_KEY_SEQUENCE = ['9', '6', '7', '7'];
         let keySequence = [];
 
         document.querySelectorAll('.number-button').forEach(button => {
