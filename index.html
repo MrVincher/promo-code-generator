@@ -10,11 +10,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f3e5f5; /* Светлый фиолетовый фон */
+            background-color: #f3e5f5;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #4a148c; /* Темный фиолетовый цвет текста */
+            color: #4a148c;
             text-align: center;
         }
         .container {
@@ -23,7 +23,7 @@
             background-color: #ffffff;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4); /* Увеличенная и более заметная тень */
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
             max-width: 600px;
             width: 100%;
         }
@@ -36,24 +36,19 @@
             left: 0;
             right: 0;
             bottom: 0;
-            opacity: 0.2; /* Полупрозрачное изображение фона */
+            opacity: 0.2;
             border-radius: 15px;
-        }
-        .header {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #7b1fa2; /* Фиолетовый цвет заголовка */
         }
         h1 {
             margin-top: 0;
             font-size: 28px;
-            color: #6a1b9a; /* Глубокий фиолетовый цвет */
+            color: #6a1b9a;
             position: relative;
             z-index: 1;
         }
         h2 {
             font-size: 20px;
-            color: #8e24aa; /* Средний фиолетовый цвет */
+            color: #8e24aa;
             margin: 0;
             padding-bottom: 20px;
             position: relative;
@@ -62,23 +57,23 @@
         .hidden { display: none; }
         #progressContainer {
             width: 100%;
-            background-color: #d1c4e9; /* Светлый фиолетовый для прогресс-бара */
+            background-color: #d1c4e9;
             margin-top: 20px;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Тень для прогресс-бара */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
         }
         #progressBar {
             height: 25px;
-            background-color: #8e24aa; /* Средний фиолетовый для заполнения прогресс-бара */
+            background-color: #8e24aa;
             width: 0%;
             transition: width 0.5s;
         }
         #progressText {
             margin-top: 5px;
-            color: #4a148c; /* Темный фиолетовый текст */
+            color: #4a148c;
             position: relative;
             z-index: 1;
         }
@@ -88,28 +83,37 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #9c27b0; /* Средний фиолетовый */
+            background-color: #9c27b0;
             color: #ffffff;
             font-size: 16px;
             transition: background-color 0.3s ease;
             position: relative;
             z-index: 1;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень для кнопок */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         button:hover, select:hover {
-            background-color: #7b1fa2; /* Более темный фиолетовый при наведении */
+            background-color: #7b1fa2;
         }
         #creatorChannelBtn {
-            background-color: #4a148c; /* Темный фиолетовый */
+            background-color: #4a148c;
         }
         #creatorChannelBtn:hover {
-            background-color: #3d0a6f; /* Ещё более темный фиолетовый */
+            background-color: #3d0a6f;
         }
         #copyBtn {
-            background-color: #ab47bc; /* Светлый фиолетовый */
+            background-color: #ab47bc;
         }
         #copyBtn:hover {
-            background-color: #8e24aa; /* Средний фиолетовый при наведении */
+            background-color: #8e24aa;
+        }
+        .password-container {
+            margin-bottom: 20px;
+        }
+        .password-container input {
+            padding: 10px;
+            border: 1px solid #d1c4e9;
+            border-radius: 5px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -117,28 +121,45 @@
     <div class="container">
         <h2>Создано специально для канала @HamsterKard</h2>
         <h1>Hamster Key Generator</h1>
-        <button id="startBtn">Запустить</button>
-        <div id="progressContainer" class="hidden">
-            <div id="progressBar"></div>
-            <div id="progressText">0%</div>
+        <div id="passwordContainer" class="password-container">
+            <input type="password" id="passwordInput" placeholder="Введите пароль" />
+            <button id="submitPasswordBtn">Войти</button>
         </div>
-        <div id="keyContainer" class="hidden">
-            <pre id="generatedKeys"></pre>
-            <button id="copyBtn">Копировать коды</button>
+        <div id="generatorContainer" class="hidden">
+            <button id="startBtn">Запустить</button>
+            <div id="progressContainer" class="hidden">
+                <div id="progressBar"></div>
+                <div id="progressText">0%</div>
+            </div>
+            <div id="keyContainer" class="hidden">
+                <pre id="generatedKeys"></pre>
+                <button id="copyBtn">Копировать коды</button>
+            </div>
+            <select id="keyCountSelect">
+                <option value="1">1</option>
+                <option value="4">4</option>
+                <option value="10">10</option>
+                <option value="40">40</option>
+            </select>
+            <button id="creatorChannelBtn">Перейти на канал</button>
         </div>
-        <select id="keyCountSelect">
-            <option value="1">1</option>
-            <option value="4">4</option>
-            <option value="10">10</option>
-            <option value="40">40</option>
-        </select>
-        <button id="creatorChannelBtn">Перейти на канал</button>
     </div>
 
     <script>
         const APP_TOKEN = 'd28721be-fd2d-4b45-869e-9f253b554e50';
         const PROMO_ID = '43e35910-c168-4634-ad4f-52fd764a843f';
-        const EVENTS_DELAY = 20000; // Вернул задержку на прежний уровень
+        const EVENTS_DELAY = 20000;
+        const PASSWORD = 'yourpassword'; // Установите ваш пароль здесь
+
+        document.getElementById('submitPasswordBtn').addEventListener('click', () => {
+            const passwordInput = document.getElementById('passwordInput').value;
+            if (passwordInput === PASSWORD) {
+                document.getElementById('passwordContainer').classList.add('hidden');
+                document.getElementById('generatorContainer').classList.remove('hidden');
+            } else {
+                alert('Неверный пароль');
+            }
+        });
 
         document.getElementById('startBtn').addEventListener('click', async () => {
             const startBtn = document.getElementById('startBtn');
@@ -149,7 +170,6 @@
             const generatedKeys = document.getElementById('generatedKeys');
             const keyCount = parseInt(document.getElementById('keyCountSelect').value);
 
-            // Reset UI for new generation
             progressBar.style.width = '0%';
             progressText.innerText = '0%';
             progressContainer.classList.remove('hidden');
@@ -171,26 +191,31 @@
                 try {
                     clientToken = await login(clientId);
                 } catch (error) {
-                    alert(`Ошибка входа: ${error.message}`);
+                    displayError('Ошибка входа', error);
                     startBtn.disabled = false;
                     return null;
                 }
 
-                for (let i = 0; i < 5; i++) { // Уменьшенное количество итераций
+                for (let i = 0; i < 5; i++) {
                     await sleep(EVENTS_DELAY);
-                    const hasCode = await emulateProgress(clientToken);
-                    updateProgress(10 / keyCount); // Update progress incrementally
-                    if (hasCode) {
-                        break;
+                    try {
+                        const hasCode = await emulateProgress(clientToken);
+                        updateProgress(10 / keyCount);
+                        if (hasCode) {
+                            break;
+                        }
+                    } catch (error) {
+                        displayError('Ошибка регистрации события', error);
+                        return null;
                     }
                 }
 
                 try {
                     const key = await generateKey(clientToken);
-                    updateProgress(30 / keyCount); // Finalize progress
+                    updateProgress(30 / keyCount);
                     return key;
                 } catch (error) {
-                    alert(`Ошибка генерации ключа: ${error.message}`);
+                    displayError('Ошибка генерации ключа', error);
                     return null;
                 }
             };
@@ -200,23 +225,21 @@
                 generatedKeys.innerText = keys.filter(key => key).join('\n');
                 keyContainer.classList.remove('hidden');
             } catch (error) {
-                alert(`Ошибка обработки ключей: ${error.message}`);
+                displayError('Ошибка обработки ключей', error);
+            } finally {
+                startBtn.disabled = false;
             }
-
-            startBtn.disabled = false;
         });
 
         document.getElementById('creatorChannelBtn').addEventListener('click', () => {
-            window.open('https://t.me/hamsterkard', '_blank'); // Открывает ссылку в новой вкладке
+            window.open('https://t.me/hamsterkard', '_blank');
         });
 
         document.getElementById('copyBtn').addEventListener('click', () => {
             const generatedKeys = document.getElementById('generatedKeys');
-            navigator.clipboard.writeText(generatedKeys.innerText).then(() => {
-                alert('Коды скопированы в буфер обмена');
-            }).catch(err => {
-                alert('Не удалось скопировать коды: ' + err);
-            });
+            navigator.clipboard.writeText(generatedKeys.innerText)
+                .then(() => alert('Коды скопированы в буфер обмена'))
+                .catch(err => alert('Не удалось скопировать коды: ' + err));
         });
 
         function generateClientId() {
@@ -294,6 +317,11 @@
 
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function displayError(message, error) {
+            console.error(`${message}:`, error);
+            alert(`${message}: ${error.message}`);
         }
     </script>
 </body>
