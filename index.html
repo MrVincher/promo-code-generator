@@ -10,18 +10,12 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            background-color: #f3e5f5; /* Светлый фиолетовый фон */
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #4a148c;
+            color: #4a148c; /* Темный фиолетовый цвет текста */
             text-align: center;
-            animation: backgroundAnimation 10s infinite alternate;
-        }
-        @keyframes backgroundAnimation {
-            0% { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
-            50% { background: linear-gradient(135deg, #f8bbd0, #ce93d8); }
-            100% { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
         }
         .container {
             position: relative;
@@ -29,75 +23,56 @@
             background-color: #ffffff;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4); /* Увеличенная и более заметная тень */
             max-width: 600px;
             width: 100%;
-            animation: fadeIn 1s ease-in-out;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        .hidden { display: none; }
         button, select {
             padding: 10px 20px;
             margin: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #9c27b0;
+            background-color: #9c27b0; /* Средний фиолетовый */
             color: #ffffff;
             font-size: 16px;
-            transition: all 0.3s ease;
-            transform: scale(1);
+            transition: background-color 0.3s ease;
         }
         button:hover, select:hover {
-            background-color: #7b1fa2;
-            transform: scale(1.1);
+            background-color: #7b1fa2; /* Более темный фиолетовый при наведении */
         }
         #copyBtn {
-            background-color: #ab47bc;
+            background-color: #ab47bc; /* Светлый фиолетовый */
         }
         #copyBtn:hover {
-            background-color: #8e24aa;
-            transform: scale(1.1);
+            background-color: #8e24aa; /* Средний фиолетовый при наведении */
         }
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background-color: #9c27b0;
-            width: 0;
-            text-align: center;
-            line-height: 30px;
-            color: white;
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-        .code-list p {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s forwards;
-        }
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        #timer {
+        .number-button {
+            width: 60px;
+            height: 60px;
             font-size: 24px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #4a148c;
-            animation: pulse 1s infinite;
+            margin: 5px;
+            background-color: #9c27b0;
+            color: #ffffff;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .number-button:hover {
+            background-color: #7b1fa2;
+        }
+        #numberButtonsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        /* Добавляем стили для анимации таймера */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .timer {
+            font-size: 24px;
+            animation: fadeIn 1s ease-in;
         }
     </style>
 </head>
@@ -116,7 +91,7 @@
         <input type="number" id="keyCount" min="1" max="10" value="1">
 
         <button id="startButton" onclick="startProcess()">Начать генерацию</button>
-        <p>Время генерации: <span id="timer">00:00:00</span></p>
+        <p>Время генерации: <span id="timer" class="timer">00:00:00</span></p>
 
         <div class="progress-container">
             <div id="progressBar" class="progress-bar">
@@ -260,18 +235,10 @@
             });
         }
 
-        function updateTimer() {
-            const timerElement = document.getElementById('timer');
-            const elapsed = Date.now() - startTime;
-            const hours = String(Math.floor(elapsed / (1000 * 60 * 60))).padStart(2, '0');
-            const minutes = String(Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-            const seconds = String(Math.floor((elapsed % (1000 * 60)) / 1000)).padStart(2, '0');
-            timerElement.textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
         async function startProcess() {
             const startButton = document.getElementById('startButton');
             startButton.disabled = true; // Блокируем кнопку
+            startTime = Date.now(); // Запоминаем время начала
 
             const progressBarFill = document.getElementById('progressBarFill');
             const codeList = document.getElementById('codeList');
@@ -281,8 +248,6 @@
             const keyCount = parseInt(keyCountInput.value);
 
             args = selectedGame;
-            startTime = Date.now();
-            setInterval(updateTimer, 1000); // Обновление таймера каждую секунду
 
             const tasks = [];
             for (let i = 0; i < keyCount; i++) {
@@ -292,10 +257,7 @@
                         await registerEvent(token);
                         const codeData = await createCode(token);
                         totalGeneratedKeys++;
-                        const codeElement = document.createElement('p');
-                        codeElement.textContent = codeData;
-                        codeElement.style.animationDelay = `${index * 0.1}s`;
-                        codeList.appendChild(codeElement);
+                        codeList.innerHTML += `${codeData}<br>`;
                     } catch (error) {
                         console.error(`Process ${index + 1} - Error: ${error.message}`);
                     }
@@ -311,13 +273,16 @@
                 setTimeout(startProcess, 5000); // Повторный запуск через 5 секунд
             } else {
                 startButton.disabled = false; // Разблокируем кнопку
-                console.log('Процесс завершен.');
+                console.log('Процесс завершен, сгенерировано ключей: ' + totalGeneratedKeys);
             }
         }
 
         function copyCodes() {
-            const codeList = document.getElementById('codeList').innerHTML;
-            const codes = codeList.split('<br>').filter(code => code.trim()).map(code => `\`${code}\``).join('\n');
+            const codeList = document.getElementById('codeList');
+            const codes = Array.from(codeList.getElementsByTagName('p'))
+                .map(p => p.textContent.trim())
+                .join('\n');
+            
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = codes;
             document.body.appendChild(tempTextArea);
@@ -326,6 +291,17 @@
             document.body.removeChild(tempTextArea);
             alert('Коды скопированы в буфер обмена!');
         }
+
+        function updateTimer() {
+            const timerElement = document.getElementById('timer');
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            const hours = String(Math.floor(elapsedTime / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((elapsedTime % 3600) / 60)).padStart(2, '0');
+            const seconds = String(elapsedTime % 60).padStart(2, '0');
+            timerElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateTimer, 1000); // Обновление таймера каждую секунду
     </script>
 </body>
 </html>
