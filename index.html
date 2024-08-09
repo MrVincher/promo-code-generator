@@ -300,11 +300,11 @@
 
             await Promise.all(tasks);
 
-            if (totalGeneratedKeys < 16) {
+            if (totalGeneratedKeys < 40) {
                 setTimeout(startProcess, 5000); // Повторный запуск через 5 секунд
             } else {
                 startButton.disabled = false; // Разблокируем кнопку
-                console.log('Процесс завершен, сгенерировано 100 ключей.');
+                console.log('Процесс завершен.');
             }
         }
 
