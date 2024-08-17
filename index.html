@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор ключей для Hamster Kombat - HamKey 3.0</title>
+    <title>Генератор ключей для Hamster Kombat - HamKey 3.1</title>
     <style>
         body {
             display: flex;
@@ -77,30 +77,32 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+        .code-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .copy-btn {
+            background-color: #ab47bc;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background-color: #8e24aa;
+        }
     </style>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(98030179, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/98030179" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
 </head>
 <body>
     <div class="container">
-        <h1>HamKey 3.0</h1>
-        <label for="gameSelect">Select Game:</label>
+        <h1>HamKey 3.1</h1>
+        <label for="gameSelect">Выбрать игру:</label>
         <select id="gameSelect">
             <option value="1">Riding Extreme 3D</option>
             <option value="2">Chain Cube 2048</option>
@@ -123,7 +125,7 @@
         </div>
 
         <div id="codeList" class="code-list"></div>
-        <button id="copyBtn" onclick="copyCodes()">Копировать код(ы)</button>
+        <button id="copyBtn" onclick="copyAllCodes()">Копировать все коды</button>
         <p>Все обновления в ТГ: <a href="https://t.me/hamsterkard" target="_blank">HamsterKard</a></p>
         <p>Контакты: <a href="https://t.me/MrVincher" target="_blank">@MrVincher</a></p>
 
@@ -301,7 +303,10 @@
                         await registerEvent(token);
                         const codeData = await createCode(token);
                         totalGeneratedKeys++;
-                        codeList.innerHTML += `${codeData}<br>`;
+                        const codeItem = document.createElement('div');
+                        codeItem.className = 'code-item';
+                        codeItem.innerHTML = `${codeData} <button class="copy-btn" onclick="copyCode('${codeData}')">Копировать</button>`;
+                        codeList.appendChild(codeItem);
                     } catch (error) {
                         console.error(`Process ${index + 1} - Error: ${error.message}`);
                     }
@@ -321,16 +326,26 @@
             }
         }
 
-        function copyCodes() {
+        function copyCode(code) {
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = code;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            alert('Код скопирован в буфер обмена!');
+        }
+
+        function copyAllCodes() {
             const codeList = document.getElementById('codeList').innerHTML;
-            const codes = codeList.split('<br>').filter(code => code.trim()).map(code => `\`${code}\``).join('\n');
+            const codes = codeList.split('<button').map(part => part.split('</div>')[0].trim()).filter(code => code).map(code => `\`${code.split('<')[0]}\``).join('\n');
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = codes;
             document.body.appendChild(tempTextArea);
             tempTextArea.select();
             document.execCommand('copy');
             document.body.removeChild(tempTextArea);
-            alert('Коды скопированы в буфер обмена!');
+            alert('Все коды скопированы в буфер обмена!');
         }
     </script>
 </body>
