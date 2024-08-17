@@ -78,20 +78,17 @@
             100% { transform: scale(1); }
         }
         .code-item {
+            margin: 5px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            justify-content: center;
         }
         .copy-btn {
             background-color: #ab47bc;
+            color: #ffffff;
             border: none;
-            color: white;
             padding: 5px 10px;
-            border-radius: 5px;
+            margin-left: 10px;
             cursor: pointer;
         }
         .copy-btn:hover {
@@ -102,14 +99,14 @@
 <body>
     <div class="container">
         <h1>HamKey 3.1</h1>
-        <label for="gameSelect">Выбрать игру:</label>
+        <label for="gameSelect">Select Game:</label>
         <select id="gameSelect">
             <option value="1">Riding Extreme 3D</option>
             <option value="2">Chain Cube 2048</option>
             <option value="3">My Clone Army</option>
             <option value="4">Train Miner</option>
             <option value="5">MergeAway</option>
-            <option value="6">TwerkRace</option> <!-- Добавлена новая игра -->
+            <option value="6">TwerkRace</option> <!-- Добавленная игра -->
         </select>
 
         <p><label for="keyCount">Сколько ключей нужно:</label></p>
@@ -128,7 +125,6 @@
         <button id="copyBtn" onclick="copyAllCodes()">Копировать все коды</button>
         <p>Все обновления в ТГ: <a href="https://t.me/hamsterkard" target="_blank">HamsterKard</a></p>
         <p>Контакты: <a href="https://t.me/MrVincher" target="_blank">@MrVincher</a></p>
-
     </div>
 
     <script>
@@ -303,14 +299,12 @@
                         await registerEvent(token);
                         const codeData = await createCode(token);
                         totalGeneratedKeys++;
-                        const codeItem = document.createElement('div');
-                        codeItem.className = 'code-item';
-                        codeItem.innerHTML = `${codeData} <button class="copy-btn" onclick="copyCode('${codeData}')">Копировать</button>`;
-                        codeList.appendChild(codeItem);
+                        // Добавляем HTML для кода и кнопки
+                        codeList.innerHTML += `<div class="code-item">${codeData}<button class="copy-btn" onclick="copyCode('${codeData}')">Копировать</button></div><br>`;
                     } catch (error) {
                         console.error(`Process ${index + 1} - Error: ${error.message}`);
                     }
-                    const progress = (totalGeneratedKeys / keyCount) * 100; // Обновлено для правильного отображения прогресса
+                    const progress = (totalGeneratedKeys / 16) * 16;
                     progressBarFill.style.width = `${progress}%`;
                     progressBarFill.textContent = `${Math.round(progress)}%`;
                 })(i));
@@ -318,7 +312,7 @@
 
             await Promise.all(tasks);
 
-            if (totalGeneratedKeys < keyCount) {
+            if (totalGeneratedKeys < 40) {
                 setTimeout(startProcess, 5000); // Повторный запуск через 5 секунд
             } else {
                 startButton.disabled = false; // Разблокируем кнопку
@@ -337,14 +331,24 @@
         }
 
         function copyAllCodes() {
-            const codeList = document.getElementById('codeList').innerHTML;
-            const codes = codeList.split('<button').map(part => part.split('</div>')[0].trim()).filter(code => code).map(code => `\`${code.split('<')[0]}\``).join('\n');
+            // Получаем все элементы с кодами
+            const codeItems = document.querySelectorAll('.code-item');
+
+            // Извлекаем текст кода из каждого элемента
+            const codes = Array.from(codeItems).map(item => {
+                // Получаем текст до кнопки "Копировать"
+                return item.innerText.split('Копировать')[0].trim();
+            }).join('\n');
+
+            // Копируем в буфер обмена
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = codes;
             document.body.appendChild(tempTextArea);
             tempTextArea.select();
             document.execCommand('copy');
             document.body.removeChild(tempTextArea);
+
+            // Показываем сообщение
             alert('Все коды скопированы в буфер обмена!');
         }
     </script>
